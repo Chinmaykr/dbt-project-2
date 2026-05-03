@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Fact table with one row per order item"
+    columns:
+      - name: order_item_id
+        description: "Unique ID for each order item"
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "ID of the order"
+        tests:
+          - not_null
+      - name: user_id
+        description: "ID of the user"
+        tests:
+          - not_null
+          - relationships:        
+              arguments:
+                to:  ref('dim_users')
+                field: user_id
+      - name: profit
+        description: "Profit made on each order item"
+        tests:
+          - not_null
+      - name: sale_price
+        description: "Price at which item was sold"
+        tests:
+          - not_null
+
+  - name: dim_users
+    description: "Dimension table with one row per user"
+    columns:
+      - name: user_id
+        description: "Unique ID for each user"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Email of the user"
+        tests:
+          - not_null
+      - name: full_name
+        description: "Full name of the user"
+        tests:
+          - not_null

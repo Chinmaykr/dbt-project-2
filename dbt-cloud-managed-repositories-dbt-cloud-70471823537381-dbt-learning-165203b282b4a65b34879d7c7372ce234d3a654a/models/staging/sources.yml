@@ -1,0 +1,80 @@
+version: 2
+
+sources:
+  - name: thelook
+    database: bigquery-public-data
+    schema: thelook_ecommerce
+    tables:
+      - name: orders
+      - name: users
+      - name: order_items
+      - name: products
+
+models:
+  - name: stg_orders
+    description: "Cleaned orders from thelook ecommerce"
+    columns:
+      - name: order_id
+        description: "Unique ID for each order"
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "ID of the user who placed the order"
+        tests:
+          - not_null
+      - name: status
+        description: "Current status of the order"
+        tests:
+          - not_null
+      - name: order_date
+        description: "Date the order was placed"
+        tests:
+          - not_null
+
+  - name: stg_users
+    description: "Cleaned users from thelook ecommerce"
+    columns:
+      - name: user_id
+        description: "Unique ID for each user"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Email address of the user"
+        tests:
+          - not_null
+
+  - name: stg_order_items
+    description: "Cleaned order items from thelook ecommerce"
+    columns:
+      - name: order_item_id
+        description: "Unique ID for each order item"
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "ID of the order"
+        tests:
+          - not_null
+      - name: product_id
+        description: "ID of the product"
+        tests:
+          - not_null
+      - name: sale_price
+        description: "Price at which item was sold"
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: "Cleaned products from thelook ecommerce"
+    columns:
+      - name: product_id
+        description: "Unique ID for each product"
+        tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Name of the product"
+        tests:
+          - not_null
